@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le Commit 2026 · retour sur la journée</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Photos, programme, intervenants, supports et avis de Le Commit 2026, la conférence par exFabrica du 24 septembre 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Martian+Mono:wght@500;600;700&display=swap">
+<style>
+:root {
+  --fond: #14181f; --fond-bandeau: #191e27; --surface: #1c222c; --surface-haute: #262e3b; --surface-creuse: #10141a;
+  --texte: #f2f5f9; --texte-secondaire: #a7b2c2; --texte-faible: #8f99ab; --texte-inverse: #14181f;
+  --bordure: #2b3340; --bordure-forte: #646f84;
+  --accent: #1e22d4; --accent-clair: #8b94ff; --accent-sourd: #1d2152; --halo: rgba(30, 34, 212, 0.55); --focus: var(--accent-clair);
+  --track-tech: #4fd3e6; --track-tech-sourd: #0f3038; --track-produit: #ffc303; --track-produit-sourd: #3a2c05;
+  --font-display: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --space-0: 0; --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px;
+  --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+  --radius-xs: 4px; --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-pill: 999px;
+  --ombre-flottante: 0 8px 24px -8px rgba(0, 0, 0, 0.65);
+  --ombre-halo: 0 0 0 1px #1e22d4, 0 0 32px -6px rgba(30, 34, 212, 0.6);
+  --largeur-contenu: 1120px; --largeur-texte: 640px; --colonne-heure: 88px;
+  --gouttiere-mobile: 16px; --gouttiere-desktop: 32px; --cible-tactile: 44px;
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+/* Charte Le Commit : un seul mode, le sombre. Les jetons restent identiques quel que soit le réglage du lecteur. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --fond: #14181f; } }
+:root[data-theme="dark"] { --fond: #14181f; }
+
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-behavior: smooth; scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--fond); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--fond); color: var(--texte); font-family: var(--font-sans); overflow-x: hidden; }
+img { max-width: 100%; height: auto; }
+a { color: var(--accent-clair); }
+
+
+/* ==========================================================================
+   Le Commit : feuille de style des composants de la page programme.
+   Dépend des variables de tokens.css (--fond, --space-4, --radius-md…).
+   Tout est écrit en mobile d'abord : les @media sont en min-width.
+   ========================================================================== */
+
+/* --- Socle ---------------------------------------------------------------- */
+
+.lc-page {
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.lc-contenu {
+  max-width: var(--largeur-contenu);
+  margin-inline: auto;
+  padding-inline: var(--gouttiere-mobile);
+}
+@media (min-width: 768px) {
+  .lc-contenu { padding-inline: var(--gouttiere-desktop); }
+}
+
+.lc-page :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* --- Logo ----------------------------------------------------------------- */
+
+.lc-logo { position: relative; display: inline-block; isolation: isolate; }
+.lc-logo svg { position: relative; z-index: 1; display: block; height: auto; }
+
+/* Halo du logo, reconstruit en CSS. Le fichier source reste la référence
+   pour le print. Un seul halo visible à l'écran à la fois. */
+.lc-logo--halo::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  left: 7%;
+  top: 62%;
+  width: 84%;
+  height: 268%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side ellipse,
+    #1e22d4 0%,
+    rgba(30, 34, 212, 0.9) 26%,
+    rgba(30, 34, 212, 0.5) 50%,
+    rgba(30, 34, 212, 0.16) 74%,
+    rgba(30, 34, 212, 0) 100%);
+}
+
+.lc-signature {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--texte-secondaire);
+}
+
+/* --- En-tête d'événement -------------------------------------------------- */
+
+.lc-entete {
+  background: var(--fond-bandeau);
+  border-bottom: 1px solid var(--bordure);
+  padding-block: var(--space-12);
+}
+@media (min-width: 768px) {
+  .lc-entete { padding-block: var(--space-24); }
+}
+
+/* Le logo et sa signature forment un bloc de la largeur du logo :
+   la signature s'aligne ainsi à droite sur le point final, comme dans le lockup dessiné,
+   ce qui la sort du halo, qui déborde à gauche. */
+.lc-entete__marque { display: block; width: 220px; }
+@media (min-width: 768px) {
+  .lc-entete__marque { width: 320px; }
+}
+.lc-entete__logo { display: block; width: 100%; }
+.lc-entete__logo svg { width: 100%; }
+
+.lc-entete__signature { margin: var(--space-2) 0 0; text-align: right; }
+
+.lc-entete__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.lc-entete__date {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-clair);
+}
+
+.lc-entete__edition {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-faible);
+}
+
+.lc-entete__theme {
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: var(--largeur-texte);
+  margin-top: var(--space-3);
+  color: var(--texte-secondaire);
+  flex: 1 0 100%;
+}
+
+/* --- Repère horaire ------------------------------------------------------- */
+
+.lc-repere {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-16) 0 var(--space-6);
+}
+@media (min-width: 768px) {
+  .lc-repere { margin: var(--space-20) 0 var(--space-8); }
+}
+
+.lc-repere__libelle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--texte);
+  white-space: nowrap;
+}
+
+.lc-repere__plage {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--texte-faible);
+  white-space: nowrap;
+}
+
+.lc-repere__filet {
+  flex: 1;
+  height: 1px;
+  background: var(--bordure);
+}
+
+/* --- Badges de type ------------------------------------------------------- */
+
+.lc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 5px var(--space-2);
+  border: 1px solid var(--bordure-forte);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-secondaire);
+  white-space: nowrap;
+}
+
+/* Une seule emphase : la keynote. Une seule atténuation : la pause. */
+.lc-badge--keynote {
+  border-color: var(--accent-clair);
+  color: var(--accent-clair);
+}
+.lc-badge--pause {
+  border-color: transparent;
+  padding-inline: 0;
+  color: var(--texte-faible);
+}
+.lc-badge--conference,
+.lc-badge--retex,
+.lc-badge--table-ronde { /* style de base, aucune surcharge */ }
+
+/* Sur surface-haute, bordure-forte n'atteint pas 3:1 : on passe à accent-clair. */
+.lc-session--encours .lc-badge { border-color: var(--accent-clair); }
+
+.lc-badge-track {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lc-badge-track--tech { background: var(--track-tech-sourd); color: var(--track-tech); }
+.lc-badge-track--produit { background: var(--track-produit-sourd); color: var(--track-produit); }
+
+.lc-badge-track::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+}
+
+/* --- Carte session -------------------------------------------------------- */
+
+.lc-session {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+@media (min-width: 768px) {
+  .lc-session { padding: var(--space-5); }
+}
+
+.lc-session + .lc-session { margin-top: var(--space-6); }
+
+.lc-session__haut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.lc-session__heure {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--texte-secondaire);
+  white-space: nowrap;
+}
+
+.lc-session__titre {
+  font-size: 1rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--texte);
+  margin: 0;
+  overflow-wrap: break-word;
+}
+@media (min-width: 768px) {
+  .lc-session__titre { font-size: 1.125rem; }
+}
+
+.lc-session__intervenants {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--texte-secondaire);
+  margin: var(--space-2) 0 0;
+}
+
+.lc-session__role {
+  color: var(--texte-faible);
+}
+
+/* États. Le défaut est « à venir » : aucune classe à poser. */
+.lc-session--encours {
+  background: var(--surface-haute);
+  border-color: transparent;
+  box-shadow: var(--ombre-halo);
+}
+
+.lc-session--passe {
+  background: transparent;
+  border-style: dashed;
+}
+.lc-session--passe .lc-session__titre,
+.lc-session--passe .lc-session__heure { color: var(--texte-faible); }
+.lc-session--passe .lc-session__intervenants { color: var(--texte-faible); }
+.lc-session--passe .lc-badge { border-color: var(--bordure); color: var(--texte-faible); }
+
+.lc-session__etat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-clair);
+}
+.lc-session__etat::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-clair);
+}
+
+/* Pause et repas : une barre, pas une carte. */
+.lc-session--pause {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--bordure);
+  border-radius: 0;
+  padding: var(--space-3) 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.lc-session--pause .lc-session__titre {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--texte-secondaire);
+}
+
+/* Colonne des heures à gauche, à partir de 768 px.
+   En dessous, l'heure vit dans la carte et la colonne n'existe pas. */
+.lc-session__heure--colonne { display: none; }
+
+@media (min-width: 768px) {
+  .lc-session__heure--colonne { display: block; }
+  .lc-grille-horaire {
+    display: grid;
+    grid-template-columns: var(--colonne-heure) 1fr;
+    column-gap: var(--space-6);
+    align-items: start;
+  }
+  .lc-grille-horaire > .lc-session__heure--colonne {
+    padding-top: var(--space-5);
+    font-size: 0.9375rem;
+    color: var(--texte-secondaire);
+  }
+  .lc-grille-horaire .lc-session__haut .lc-session__heure { display: none; }
+}
+
+/* --- Mention « créneau à confirmer » -------------------------------------- */
+
+.lc-mention {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-1) var(--space-2);
+  border: 1px dashed var(--bordure-forte);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--texte-secondaire);
+}
+.lc-mention svg { width: 14px; height: 14px; flex: none; }
+
+/* --- Tracks --------------------------------------------------------------- */
+
+.lc-tracks__bascule {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  margin-bottom: var(--space-6);
+  background: var(--fond);
+  box-shadow: var(--ombre-flottante);
+}
+
+.lc-tracks__onglet {
+  flex: 1;
+  min-height: var(--cible-tactile);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid var(--bordure-forte);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-secondaire);
+  cursor: pointer;
+}
+.lc-tracks__onglet[aria-selected="true"] {
+  background: var(--surface-haute);
+  border-color: transparent;
+  color: var(--texte);
+}
+.lc-tracks__onglet[aria-selected="true"][data-track="tech"] { box-shadow: inset 0 -3px 0 var(--track-tech); }
+.lc-tracks__onglet[aria-selected="true"][data-track="produit"] { box-shadow: inset 0 -3px 0 var(--track-produit); }
+
+.lc-tracks__colonnes { display: block; }
+
+.lc-tracks__colonne[hidden] { display: none; }
+
+.lc-tracks__entete {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+}
+.lc-tracks__colonne--tech .lc-tracks__entete { background: var(--track-tech-sourd); }
+.lc-tracks__colonne--produit .lc-tracks__entete { background: var(--track-produit-sourd); }
+
+.lc-tracks__titre {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0;
+}
+.lc-tracks__colonne--tech .lc-tracks__titre { color: var(--track-tech); }
+.lc-tracks__colonne--produit .lc-tracks__titre { color: var(--track-produit); }
+
+@media (min-width: 768px) {
+  .lc-tracks__bascule { display: none; }
+  .lc-tracks__colonnes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .lc-tracks__colonne[hidden] { display: block; }
+}
+
+/* --- Carte intervenant ---------------------------------------------------- */
+
+.lc-intervenant {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+@media (min-width: 768px) {
+  .lc-intervenant { padding: var(--space-6); }
+}
+
+.lc-intervenant__photo {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--surface-creuse);
+}
+@media (min-width: 768px) {
+  .lc-intervenant__photo { width: 72px; height: 72px; }
+}
+
+.lc-intervenant__nom {
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--texte);
+  margin: 0;
+}
+
+.lc-intervenant__fonction {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--texte-secondaire);
+  margin: 2px 0 0;
+}
+
+.lc-intervenant__entreprise {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--texte-faible);
+  margin: 0;
+}
+
+/* --- Motifs --------------------------------------------------------------- */
+
+/* Trame de points au pas de l'échelle d'espacement : fond de section calme. */
+.lc-trame {
+  background-image: radial-gradient(var(--bordure-forte) 1px, transparent 1px);
+  background-size: var(--space-6) var(--space-6);
+  background-position: 0 0;
+  opacity: 0.35;
+}
+
+/* Séparateur « commit » : un filet coupé par un point plein. */
+.lc-separateur {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-12) 0;
+}
+.lc-separateur::before,
+.lc-separateur::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--bordure);
+}
+.lc-separateur__point {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  flex: none;
+}
+
+/* --- Pied de page --------------------------------------------------------- */
+
+.lc-pied {
+  background: var(--fond-bandeau);
+  border-top: 1px solid var(--bordure);
+  margin-top: var(--space-20);
+  padding-block: var(--space-12);
+}
+
+.lc-pied__grille {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+@media (min-width: 768px) {
+  .lc-pied__grille {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.lc-pied__logo { width: 150px; }
+.lc-pied__logo svg { width: 100%; color: var(--texte-faible); }
+
+.lc-pied__liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lc-pied__liens a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--texte-secondaire);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.lc-pied__liens a:hover { color: var(--texte); border-bottom-color: var(--accent-clair); }
+
+.lc-pied__mention {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: var(--texte-faible);
+  margin: var(--space-4) 0 0;
+}
+
+
+.lc-session__heure--colonne { display: none; }
+@media (min-width: 768px) { .lc-session__heure--colonne { display: block; } }
+.lc-grille-horaire + .lc-grille-horaire { margin-top: var(--space-6); }
+.lc-tracks__colonne .lc-session + .lc-session { margin-top: var(--space-6); }
+.lc-tracks__bascule { top: env(safe-area-inset-top, 0px); }
+
+/* ---- En-tête de l'événement ---- */
+.lc-entete { overflow: hidden; }
+.entete-grille { display: grid; gap: var(--space-8); }
+.entete-titre {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; line-height: 1.1; letter-spacing: -0.015em;
+  margin: var(--space-10) 0 0; max-width: 18ch;
+}
+@media (min-width: 768px) { .entete-titre { font-size: 2.25rem; line-height: 1.05; letter-spacing: -0.02em; } }
+.entete-lieu { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 0.8125rem; font-weight: 500; color: var(--texte-secondaire); }
+.entete-lieu svg { color: var(--accent-clair); }
+
+.nav-sections { margin-top: var(--space-8); }
+.nav-sections ul { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+.nav-sections a {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--cible-tactile); padding: 0 var(--space-4);
+  border: 1px solid var(--bordure-forte); border-radius: var(--radius-sm); color: var(--texte); text-decoration: none;
+  font-size: 0.875rem; font-weight: 500; background: var(--surface);
+}
+.nav-sections a:hover { background: var(--surface-haute); border-color: var(--accent-clair); }
+.nav-sections .nb { font-family: var(--font-display); font-size: 0.6875rem; font-weight: 600; color: var(--texte-faible); }
+
+.lc-entete__meta .lc-entete__theme { flex: 1 0 100%; width: 100%; }
+/* ---- Sections ---- */
+.section { padding-top: var(--space-16); }
+@media (min-width: 768px) { .section { padding-top: var(--space-20); } }
+.section-tete { display: grid; gap: var(--space-3); margin-bottom: var(--space-8); max-width: var(--largeur-texte); }
+.section-titre { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.015em; margin: 0; }
+.section-chapo { font-size: 1rem; line-height: 1.55; color: var(--texte-secondaire); margin: 0; }
+.section-tete + .lc-repere { margin-top: 0; }
+
+/* ---- Galerie ---- */
+.gal-groupe + .gal-groupe { margin-top: var(--space-10); }
+.gal-entete { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-4); }
+.gal-heure { font-family: var(--font-display); font-size: 0.9375rem; font-weight: 600; color: var(--accent-clair); }
+.gal-titre { font-size: 1rem; line-height: 1.4; font-weight: 600; margin: 0; }
+.gal-compte { font-size: 0.8125rem; font-weight: 500; color: var(--texte-faible); }
+.gal-lien { font-size: 0.8125rem; font-weight: 500; color: var(--accent-clair); text-underline-offset: 3px; }
+.gal-grille { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2); grid-auto-flow: dense; }
+@media (min-width: 768px) { .gal-grille { grid-template-columns: repeat(4, 1fr); gap: var(--space-3); } }
+.gal-grille { grid-auto-rows: 7.5rem; }
+@media (min-width: 768px) { .gal-grille { grid-auto-rows: 11rem; } }
+.photo {
+  display: block; padding: 0; margin: 0; border: 0; border-radius: var(--radius-sm); overflow: hidden; cursor: zoom-in;
+  background: var(--surface-creuse); position: relative; min-height: 0;
+}
+.photo--portrait { grid-row: span 2; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease, filter .35s ease; filter: saturate(.92); }
+.photo:hover img { transform: scale(1.03); filter: saturate(1); }
+@media (prefers-reduced-motion: reduce) { .photo img { transition: none; } .photo:hover img { transform: none; } }
+
+/* ---- Visionneuse ---- */
+.visio { position: fixed; inset: 0; z-index: 50; display: none; background: rgba(16, 20, 26, 0.96);
+  padding: calc(env(safe-area-inset-top, 0px) + var(--space-4)) var(--space-4) calc(env(safe-area-inset-bottom, 0px) + var(--space-4)); }
+.visio[data-ouvert="true"] { display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-3); }
+.visio__haut { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
+.visio__compteur { font-family: var(--font-display); font-size: 0.8125rem; font-weight: 600; color: var(--texte-secondaire); }
+.visio__scene { display: flex; align-items: center; justify-content: center; min-height: 0; }
+.visio__scene img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-sm); }
+.visio__bas { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); }
+.visio__legende { font-size: 0.875rem; color: var(--texte-secondaire); margin: 0; text-align: center; flex: 1; }
+.btn-ico {
+  width: var(--cible-tactile); height: var(--cible-tactile); display: inline-flex; align-items: center; justify-content: center; flex: none;
+  border: 1px solid var(--bordure-forte); border-radius: var(--radius-sm); background: var(--surface); color: var(--texte); cursor: pointer;
+}
+.btn-ico:hover { background: var(--surface-haute); border-color: var(--accent-clair); }
+
+/* ---- Actions dans les cartes ---- */
+.actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+.action {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--cible-tactile); padding: 0 var(--space-3);
+  border: 1px solid var(--bordure-forte); border-radius: var(--radius-sm); color: var(--texte-secondaire); text-decoration: none;
+  font-size: 0.8125rem; font-weight: 500; background: transparent;
+}
+.action svg { flex: none; }
+.action:hover { color: var(--texte); border-color: var(--accent-clair); background: var(--surface-haute); }
+.action--support { color: var(--accent-clair); border-color: var(--accent-clair); background: var(--accent-sourd); }
+.action--support:hover { color: var(--texte); }
+.action--absent { border-style: dashed; color: var(--texte-faible); }
+.lien-nom { color: inherit; text-decoration: underline; text-decoration-color: var(--bordure-forte); text-underline-offset: 3px; }
+.lien-nom:hover { color: var(--texte); text-decoration-color: var(--accent-clair); }
+.tr-avec { margin-top: var(--space-1); }
+.lc-session:target { box-shadow: var(--ombre-halo); border-color: transparent; background: var(--surface-haute); }
+
+/* ---- Intervenants ---- */
+.int-grille { display: grid; gap: var(--space-4); }
+@media (min-width: 768px) { .int-grille { grid-template-columns: repeat(3, 1fr); } }
+.lc-intervenant { align-items: flex-start; }
+.lc-intervenant:target { border-color: var(--accent-clair); }
+.initiales { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 600; font-size: 0.9375rem; color: var(--texte-faible); }
+.int-corps { min-width: 0; }
+.int-linkedin { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--cible-tactile); margin-top: var(--space-2);
+  font-size: 0.8125rem; font-weight: 500; color: var(--accent-clair); text-decoration: none; }
+.int-linkedin:hover span { text-decoration: underline; text-underline-offset: 3px; }
+.int-sessions { list-style: none; margin: var(--space-3) 0 0; padding: var(--space-3) 0 0; border-top: 1px solid var(--bordure); display: grid; gap: var(--space-2); }
+.int-sessions a { font-size: 0.8125rem; line-height: 1.45; color: var(--accent-clair); text-underline-offset: 3px; }
+
+/* ---- Supports ---- */
+.sup-liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--bordure); }
+.sup-ligne { display: grid; gap: var(--space-3); padding: var(--space-4) 0; border-bottom: 1px solid var(--bordure); }
+@media (min-width: 768px) { .sup-ligne { grid-template-columns: 1fr auto; align-items: center; gap: var(--space-6); } }
+.sup-titre { font-size: 1rem; line-height: 1.4; font-weight: 600; color: var(--texte); text-decoration: none; }
+.sup-titre:hover { text-decoration: underline; text-decoration-color: var(--accent-clair); text-underline-offset: 3px; }
+.sup-noms { margin: var(--space-1) 0 0; font-size: 0.8125rem; font-weight: 500; color: var(--texte-secondaire); }
+.sup-liens { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+@media (min-width: 768px) { .sup-liens { justify-content: flex-end; } }
+
+.lc-repere { flex-wrap: wrap; row-gap: var(--space-2); }
+.lc-repere__plage { white-space: normal; }
+.lc-repere__filet { flex-basis: 100%; }
+@media (min-width: 768px) { .lc-repere__filet { flex-basis: auto; } }
+.salle { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 0.8125rem; font-weight: 500; color: var(--texte-faible); }
+/* ---- Lieu ---- */
+.entete-lieu a, .lc-pied__mention a, .section-chapo a { color: var(--accent-clair); text-underline-offset: 3px; }
+.lieu-grille { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+@media (min-width: 768px) { .lieu-grille { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: repeat(2, 15rem); } .lieu-fig--grande { grid-row: span 2; } }
+.lieu-fig { margin: 0; display: flex; flex-direction: column; gap: var(--space-2); min-height: 0; }
+.lieu-fig--grande { grid-column: span 2; }
+@media (min-width: 768px) { .lieu-fig--grande { grid-column: auto; } }
+.lieu-fig .photo { flex: 1; min-height: 10rem; }
+.lieu-fig .photo img { position: absolute; inset: 0; }
+.lieu-fig:last-child { grid-column: span 2; }
+@media (min-width: 768px) { .lieu-fig--grande .photo { min-height: 0; } }
+.lieu-fig figcaption { font-size: 0.8125rem; font-weight: 500; color: var(--texte-secondaire); }
+#lieu .bouton { margin-top: var(--space-6); }
+
+/* ---- Avis et playlist ---- */
+.avis { display: grid; gap: var(--space-4); }
+@media (min-width: 768px) { .avis { grid-template-columns: 2fr 1fr; } }
+.encart { background: var(--surface); border: 1px solid var(--bordure); border-radius: var(--radius-lg); padding: var(--space-6); position: relative; overflow: hidden; }
+.encart--avis { background: var(--surface-haute); border-color: transparent; }
+.encart__titre { font-family: var(--font-display); font-size: 1.125rem; line-height: 1.2; font-weight: 600; margin: 0 0 var(--space-3); }
+.encart p { margin: 0; color: var(--texte-secondaire); line-height: 1.55; }
+.bouton {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--cible-tactile); padding: 0 var(--space-5);
+  margin-top: var(--space-6); border-radius: var(--radius-sm); background: var(--accent-clair); color: var(--texte-inverse);
+  font-weight: 600; font-size: 0.9375rem; text-decoration: none;
+}
+.bouton:hover { background: var(--texte); }
+.bouton--sec { background: transparent; color: var(--texte); border: 1px solid var(--bordure-forte); }
+.bouton--sec:hover { background: var(--surface-haute); border-color: var(--accent-clair); }
+.encart__ico { color: var(--accent-clair); margin-bottom: var(--space-3); display: block; }
+
+.lc-pied__logo svg { color: var(--texte-faible); }
+.lc-pied__liens a { color: var(--texte-secondaire); }
+</style>
+</head>
+<body class="lc-page">
+
+<header class="lc-entete">
+  <div class="lc-contenu">
+    <span class="lc-entete__marque">
+      <span class="lc-logo lc-logo--halo lc-entete__logo"><svg viewBox="484 243 749 127" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Le Commit" fill="#ffffff"><path d="M1162.43 361.355C1158.95 361.355 1156.08 360.228 1153.83 357.975C1151.68 355.721 1150.6 352.853 1150.6 349.371V303.583H1128.01V285.146H1150.6V253.801H1169.96V285.146H1197.46V303.583H1169.96V338.308C1169.96 341.381 1171.34 342.917 1174.11 342.917H1197.46V361.355H1162.43Z" fill="#ffffff"/><path d="M1096.13 278.193C1092.14 278.193 1088.71 276.81 1085.84 274.044C1082.97 271.176 1081.54 267.693 1081.54 263.596C1081.54 259.499 1082.97 256.067 1085.84 253.302C1088.71 250.434 1092.14 249 1096.13 249C1100.13 249 1103.56 250.434 1106.43 253.302C1109.3 256.067 1110.73 259.499 1110.73 263.596C1110.73 267.693 1109.3 271.176 1106.43 274.044C1103.56 276.81 1100.13 278.193 1096.13 278.193ZM1060.79 362.392V343.954H1086.61V304.62H1062.64V286.182H1105.97V343.954H1128.09V362.392H1060.79Z" fill="#ffffff"/><path d="M965.964 362.171V285.962H985.324V293.337H988.089C988.704 290.571 990.138 288.318 992.391 286.576C994.645 284.732 997.513 283.811 1001 283.811C1004.38 283.811 1007.24 284.732 1009.6 286.576C1012.06 288.318 1013.65 290.571 1014.36 293.337H1017.13C1017.95 290.571 1019.69 288.318 1022.35 286.576C1025.02 284.732 1028.24 283.811 1032.03 283.811C1037.15 283.811 1041.25 285.552 1044.32 289.035C1047.4 292.415 1048.93 297.127 1048.93 303.17V362.171H1029.57V308.702C1029.57 306.551 1029.01 304.963 1027.88 303.939C1026.86 302.812 1025.48 302.248 1023.74 302.248C1021.79 302.248 1020.2 302.863 1018.97 304.092C1017.74 305.321 1017.13 307.165 1017.13 309.623V362.171H997.769V308.702C997.769 306.551 997.154 304.963 995.925 303.939C994.799 302.812 993.416 302.248 991.777 302.248C989.933 302.248 988.397 302.863 987.167 304.092C985.938 305.321 985.324 307.165 985.324 309.623V362.171H965.964Z" fill="#ffffff"/><path d="M871.134 362.171V285.962H890.493V293.337H893.259C893.874 290.571 895.308 288.318 897.561 286.576C899.815 284.732 902.683 283.811 906.166 283.811C909.546 283.811 912.414 284.732 914.77 286.576C917.228 288.318 918.816 290.571 919.533 293.337H922.299C923.118 290.571 924.86 288.318 927.523 286.576C930.186 284.732 933.413 283.811 937.203 283.811C942.324 283.811 946.422 285.552 949.494 289.035C952.567 292.415 954.104 297.127 954.104 303.17V362.171H934.744V308.702C934.744 306.551 934.181 304.963 933.054 303.939C932.03 302.812 930.647 302.248 928.906 302.248C926.959 302.248 925.372 302.863 924.143 304.092C922.913 305.321 922.299 307.165 922.299 309.623V362.171H902.939V308.702C902.939 306.551 902.324 304.963 901.095 303.939C899.968 302.812 898.586 302.248 896.947 302.248C895.103 302.248 893.566 302.863 892.337 304.092C891.108 305.321 890.493 307.165 890.493 309.623V362.171H871.134Z" fill="#ffffff"/><path d="M819.547 364.322C812.581 364.322 806.077 362.786 800.033 359.713C793.99 356.64 789.124 352.184 785.437 346.345C781.749 340.507 779.905 333.388 779.905 324.988V323.145C779.905 314.848 781.749 307.78 785.437 301.941C789.124 296 793.99 291.493 800.033 288.42C806.077 285.347 812.581 283.811 819.547 283.811C826.512 283.811 833.016 285.347 839.06 288.42C845.103 291.493 849.969 296 853.656 301.941C857.344 307.78 859.188 314.848 859.188 323.145V324.988C859.188 333.388 857.344 340.507 853.656 346.345C849.969 352.184 845.103 356.64 839.06 359.713C833.016 362.786 826.512 364.322 819.547 364.322ZM819.547 345.885C825.18 345.885 829.943 344.092 833.836 340.507C837.831 336.819 839.828 331.851 839.828 325.603V322.53C839.828 316.179 837.831 311.211 833.836 307.626C829.943 304.041 825.18 302.248 819.547 302.248C813.913 302.248 809.098 304.041 805.104 307.626C801.211 311.211 799.265 316.179 799.265 322.53V325.603C799.265 331.851 801.211 336.819 805.104 340.507C809.098 344.092 813.913 345.885 819.547 345.885Z" fill="#ffffff"/><path d="M728.949 364.457C716.657 364.457 706.926 360.718 699.755 353.24C692.585 345.66 689 334.751 689 320.513V296.544C689 282.716 692.585 271.96 699.755 264.278C706.926 256.493 716.657 252.601 728.949 252.601C741.753 252.601 751.484 256.186 758.142 263.356C764.902 270.526 768.283 280.257 768.283 292.549V295.315H748.001V292.549C748.001 289.169 747.438 285.84 746.311 282.562C745.184 279.182 743.238 276.416 740.472 274.265C737.707 272.114 733.865 271.038 728.949 271.038C724.442 271.038 720.703 272.165 717.732 274.419C714.864 276.57 712.713 279.489 711.279 283.177C709.947 286.762 709.282 290.705 709.282 295.008V322.05C709.282 329.015 710.767 334.751 713.737 339.258C716.708 343.765 721.778 346.019 728.949 346.019C734.173 346.019 738.167 344.995 740.933 342.946C743.699 340.897 745.543 338.234 746.465 334.956C747.489 331.678 748.001 328.196 748.001 324.508V321.742H768.283V324.508C768.283 337.21 764.902 347.043 758.142 354.009C751.484 360.974 741.753 364.457 728.949 364.457Z" fill="#ffffff"/><path d="M612.026 363.986C604.446 363.986 597.737 362.398 591.898 359.223C586.06 355.945 581.502 351.284 578.224 345.241C574.946 339.197 573.307 331.924 573.307 323.423V322.501C573.307 314.716 575.048 307.904 578.531 302.065C582.014 296.227 586.623 291.669 592.359 288.391C598.198 285.113 604.651 283.474 611.719 283.474C618.275 283.474 623.909 284.601 628.62 286.854C633.332 289.108 637.174 292.027 640.144 295.612C643.217 299.197 645.471 303.141 646.905 307.443C648.441 311.643 649.209 315.74 649.209 319.735V330.029H593.281C593.486 334.537 595.381 338.275 598.966 341.246C602.551 344.114 606.802 345.548 611.719 345.548C616.533 345.548 620.221 344.677 622.782 342.936C625.445 341.195 627.289 339.197 628.313 336.944L644.907 346.163C643.78 348.723 641.885 351.387 639.222 354.152C636.661 356.918 633.179 359.274 628.774 361.22C624.37 363.064 618.787 363.986 612.026 363.986ZM593.589 313.435H629.542C628.928 309.85 626.982 306.88 623.704 304.524C620.528 302.168 616.482 300.99 611.565 300.99C606.751 300.99 602.756 302.27 599.581 304.831C596.508 307.29 594.51 310.158 593.589 313.435Z" fill="#ffffff"/><path d="M490 361.355V342.917H516.735V272.239H490.922V253.801H536.095V342.917H560.986V361.355H490Z" fill="#ffffff"/><circle cx="1217.85" cy="352" r="9" fill="#1e22d4"/></svg></span>
+      <p class="lc-signature lc-entete__signature">par exFabrica</p>
+    </span>
+    <h1 class="entete-titre">Retour sur l'édition 2026</h1>
+    <div class="lc-entete__meta">
+      <span class="lc-entete__date">Jeudi 24 septembre 2026</span>
+      <span class="entete-lieu"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><a href="https://www.thecamp.fr" target="_blank" rel="noopener">The Camp</a>, Aix-en-Provence</span>
+      <p class="lc-entete__theme">La transformation de nos métiers avec l'IA. Retrouvez les photos de la journée, le programme et ses intervenants, les supports de présentation et les avis laissés sur chaque intervention.</p>
+    </div>
+    <nav class="nav-sections" aria-label="Sections de la page">
+      <ul>
+        <li><a href="#photos">Photos <span class="nb">31</span></a></li>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#intervenants">Intervenants <span class="nb">12</span></a></li>
+        <li><a href="#supports">Supports</a></li>
+        <li><a href="#lieu">Lieu</a></li>
+        <li><a href="#avis">Avis OpenFeedback</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="lc-contenu">
+
+  <section class="section" id="photos" aria-labelledby="t-photos">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-photos">La journée en images</h2>
+      <p class="section-chapo">Les photos sont classées par créneau du programme. Touchez une photo pour l'agrandir, puis naviguez avec les flèches.</p>
+    </div>
+    <section class="gal-groupe" aria-labelledby="g-0930">
+  <div class="gal-entete"><span class="gal-heure">9h30</span><h3 class="gal-titre" id="g-0930">Ouverture et keynote d&#x27;ouverture</h3><span class="gal-compte">8 photos</span> <a class="gal-lien" href="#s-keynote">Voir la session</a></div>
+  <div class="gal-grille"><button class="photo" type="button" data-i="0" aria-label="Agrandir la photo de 9h36, Ouverture et keynote d&#x27;ouverture"><img src="img/27e94ef37a.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="1" aria-label="Agrandir la photo de 9h37, Ouverture et keynote d&#x27;ouverture"><img src="img/5db5997db5.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="2" aria-label="Agrandir la photo de 9h41, Ouverture et keynote d&#x27;ouverture"><img src="img/a5adef7c20.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="3" aria-label="Agrandir la photo de 9h47, Ouverture et keynote d&#x27;ouverture"><img src="img/8fb3909b29.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="4" aria-label="Agrandir la photo de 9h57, Ouverture et keynote d&#x27;ouverture"><img src="img/52d7ae7931.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="5" aria-label="Agrandir la photo de 9h57, Ouverture et keynote d&#x27;ouverture"><img src="img/3fe6fe4131.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="6" aria-label="Agrandir la photo de 9h57, Ouverture et keynote d&#x27;ouverture"><img src="img/44c564e83a.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="7" aria-label="Agrandir la photo de 9h58, Ouverture et keynote d&#x27;ouverture"><img src="img/c263b06eb5.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1000">
+  <div class="gal-entete"><span class="gal-heure">10h00</span><h3 class="gal-titre" id="g-1000">Géopolitique de l&#x27;IA et enjeux de souveraineté</h3><span class="gal-compte">4 photos</span> <a class="gal-lien" href="#s-geo">Voir la session</a></div>
+  <div class="gal-grille"><button class="photo photo--portrait" type="button" data-i="8" aria-label="Agrandir la photo de 10h14, Géopolitique de l&#x27;IA et enjeux de souveraineté"><img src="img/313b821117.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="9" aria-label="Agrandir la photo de 10h15, Géopolitique de l&#x27;IA et enjeux de souveraineté"><img src="img/c0e5fed3bc.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="10" aria-label="Agrandir la photo de 10h32, Géopolitique de l&#x27;IA et enjeux de souveraineté"><img src="img/b832d0ee0a.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="11" aria-label="Agrandir la photo de 10h32, Géopolitique de l&#x27;IA et enjeux de souveraineté"><img src="img/039d1b1bf3.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1045">
+  <div class="gal-entete"><span class="gal-heure">10h45</span><h3 class="gal-titre" id="g-1045">Pause du matin</h3><span class="gal-compte">2 photos</span></div>
+  <div class="gal-grille"><button class="photo" type="button" data-i="12" aria-label="Agrandir la photo de 10h48, Pause du matin"><img src="img/6481e5025e.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="13" aria-label="Agrandir la photo de 10h50, Pause du matin"><img src="img/1716efafe5.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1115">
+  <div class="gal-entete"><span class="gal-heure">11h15</span><h3 class="gal-titre" id="g-1115">Quand les agents IA sortent du cadre</h3><span class="gal-compte">9 photos</span> <a class="gal-lien" href="#s-agents">Voir la session</a></div>
+  <div class="gal-grille"><button class="photo" type="button" data-i="14" aria-label="Agrandir la photo de 11h40, Quand les agents IA sortent du cadre"><img src="img/a3013c5e47.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="15" aria-label="Agrandir la photo de 11h40, Quand les agents IA sortent du cadre"><img src="img/b54d368a83.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="16" aria-label="Agrandir la photo de 11h40, Quand les agents IA sortent du cadre"><img src="img/32aefcb85b.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="17" aria-label="Agrandir la photo de 11h41, Quand les agents IA sortent du cadre"><img src="img/e60c4ed41f.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="18" aria-label="Agrandir la photo de 11h41, Quand les agents IA sortent du cadre"><img src="img/5864b09961.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="19" aria-label="Agrandir la photo de 11h41, Quand les agents IA sortent du cadre"><img src="img/9607d1a583.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="20" aria-label="Agrandir la photo de 11h42, Quand les agents IA sortent du cadre"><img src="img/081abf86be.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="21" aria-label="Agrandir la photo de 11h42, Quand les agents IA sortent du cadre"><img src="img/720af7762d.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="22" aria-label="Agrandir la photo de 11h42, Quand les agents IA sortent du cadre"><img src="img/64d3f484c0.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1415">
+  <div class="gal-entete"><span class="gal-heure">14h15</span><h3 class="gal-titre" id="g-1415">Track tech : après le 10x engineer</h3><span class="gal-compte">2 photos</span> <a class="gal-lien" href="#s-100x">Voir la session</a></div>
+  <div class="gal-grille"><button class="photo photo--portrait" type="button" data-i="23" aria-label="Agrandir la photo de 14h15, Track tech : après le 10x engineer"><img src="img/b0326791b8.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="24" aria-label="Agrandir la photo de 14h26, Track tech : après le 10x engineer"><img src="img/90d683e1a6.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1500">
+  <div class="gal-entete"><span class="gal-heure">15h00</span><h3 class="gal-titre" id="g-1500">Track tech : web sémantique et langage naturel</h3><span class="gal-compte">5 photos</span> <a class="gal-lien" href="#s-websem">Voir la session</a></div>
+  <div class="gal-grille"><button class="photo photo--portrait" type="button" data-i="25" aria-label="Agrandir la photo de 15h09, Track tech : web sémantique et langage naturel"><img src="img/63564d9fcf.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="26" aria-label="Agrandir la photo de 15h09, Track tech : web sémantique et langage naturel"><img src="img/2559413b00.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo photo--portrait" type="button" data-i="27" aria-label="Agrandir la photo de 15h10, Track tech : web sémantique et langage naturel"><img src="img/8dfad6a0db.jpg" width="896" height="1344" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="28" aria-label="Agrandir la photo de 15h10, Track tech : web sémantique et langage naturel"><img src="img/2dc8e542ec.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button><button class="photo" type="button" data-i="29" aria-label="Agrandir la photo de 15h10, Track tech : web sémantique et langage naturel"><img src="img/314ef98d99.jpg" width="1344" height="896" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+<section class="gal-groupe" aria-labelledby="g-1830">
+  <div class="gal-entete"><span class="gal-heure">18h30</span><h3 class="gal-titre" id="g-1830">Cocktail et repas dînatoire</h3><span class="gal-compte">1 photo</span></div>
+  <div class="gal-grille"><button class="photo" type="button" data-i="30" aria-label="Agrandir la photo de 18h59, Cocktail et repas dînatoire"><img src="img/4e676e354f.jpg" width="1600" height="1200" alt="" decoding="async" loading="lazy"></button></div>
+</section>
+  </section>
+
+  <section class="section" id="programme" aria-labelledby="t-programme">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-programme">Programme</h2>
+      <p class="section-chapo">Une matinée en plénière, deux tracks en parallèle l'après-midi, puis une clôture commune. Chaque intervention renvoie vers son support de présentation et vers OpenFeedback.</p>
+    </div>
+    
+<div class="lc-repere"><h3 class="lc-repere__libelle">Matinée</h3><span class="lc-repere__plage">8h30 – 12h30 · plénière</span><span class="lc-repere__filet"></span></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">8h30</span>
+<div class="lc-session lc-session--pause"><span class="lc-badge lc-badge--pause">Accueil</span><p class="lc-session__titre">Accueil et petit-déjeuner · 8h30 – 9h30</p></div></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">9h30</span><article class="lc-session" id="s-keynote">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">9h30 – 10h00</span>
+    <span class="lc-badge lc-badge--keynote">Keynote d&#x27;ouverture</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Des applications produites par n&#x27;importe qui : et nos métiers ?</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-cg">Constantin Guay</a></p>
+  <div class="actions"><a class="action action--support" href="supports/constantin-guay-keynote-ouverture.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/uDFcO7sT7MvATPJzO9P1" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">10h00</span><article class="lc-session" id="s-geo">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">10h00 – 10h45</span>
+    <span class="lc-badge lc-badge--conference">Conférence</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Géopolitique de l&#x27;IA et enjeux de souveraineté</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-pc">Paul Chevalier</a></p>
+  <div class="actions"><a class="action action--support" href="supports/paul-chevalier-geopolitique-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/w0ZZV1XY0Siem7bg9hwS" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">10h45</span>
+<div class="lc-session lc-session--pause"><span class="lc-badge lc-badge--pause">Pause</span><p class="lc-session__titre">Pause · 10h45 – 11h15</p></div></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">11h15</span><article class="lc-session" id="s-agents">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">11h15 – 11h45</span>
+    <span class="lc-badge lc-badge--retex">Retour d&#x27;expérience</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Quand les agents IA sortent du cadre</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-hg">Hubert Grégoire</a></p>
+  <div class="actions"><a class="action action--support" href="supports/hubert-gregoire-agents-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action action--support" href="supports/owasp-agentic-top10-2026.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>OWASP Top 10 for Agentic Applications 2026 (PDF)</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/JtuETDo0pR6TLJ0ahcP8" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">11h45</span><article class="lc-session" id="s-memoire">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">11h45 – 12h30</span>
+    <span class="lc-badge lc-badge--table-ronde">Table ronde</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">La mémoire d&#x27;entreprise : qu&#x27;est-ce qui mérite d&#x27;être gardé ?</h3>
+  <p class="lc-session__intervenants"><span class="lc-session__role">Animation :</span> <a class="lien-nom" href="#int-jl">Julien Lefebvre</a></p>
+  <p class="lc-session__intervenants tr-avec"><span class="lc-session__role">Avec :</span> <a class="lien-nom" href="#int-pc">Paul Chevalier</a>, <a class="lien-nom" href="#int-sv">Swann Le Vigouroux</a>, <a class="lien-nom" href="#int-nm">Nicolas Malburet</a></p>
+  <div class="actions"><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/X4WETVjGHz3xRzyBYsby" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">12h30</span>
+<div class="lc-session lc-session--pause"><span class="lc-badge lc-badge--pause">Repas</span><p class="lc-session__titre">Déjeuner · 12h30 – 14h00</p></div></div>
+<div class="lc-separateur" aria-hidden="true"><span class="lc-separateur__point"></span></div>
+<div class="lc-repere"><h3 class="lc-repere__libelle">Après-midi</h3><span class="lc-repere__plage">14h15 – 15h45 · 2 tracks en parallèle</span><span class="lc-repere__filet"></span></div>
+<div class="lc-tracks">
+  <div class="lc-tracks__bascule" role="tablist" aria-label="Choisir un track">
+    <button class="lc-tracks__onglet" role="tab" id="onglet-tech" data-track="tech" aria-selected="true" aria-controls="panneau-tech">Tech</button>
+    <button class="lc-tracks__onglet" role="tab" id="onglet-produit" data-track="produit" aria-selected="false" aria-controls="panneau-produit" tabindex="-1">Produit</button>
+  </div>
+  <div class="lc-tracks__colonnes">
+    <section class="lc-tracks__colonne lc-tracks__colonne--tech" id="panneau-tech" role="tabpanel" aria-labelledby="onglet-tech">
+  <div class="lc-tracks__entete"><h3 class="lc-tracks__titre">Track tech</h3></div>
+  <article class="lc-session" id="s-100x">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">14h15 – 15h00</span>
+    <span class="lc-badge lc-badge--conference">Conférence</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Après le 10x engineer, peut-on construire des 100x engineers ?</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-ft">François Teychene</a></p>
+  <div class="actions"><a class="action action--support" href="https://fteychene.github.io/conference-agent-whisperer/commit2026/index.html" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Slides en ligne</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/W24axJMNnhnbBKyT5f05" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article>
+<article class="lc-session" id="s-websem">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">15h00 – 15h45</span>
+    <span class="lc-badge lc-badge--conference">Conférence</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Web sémantique et langage naturel : le cas du reporting européen</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-fl">Florian Lemoine</a></p>
+  <div class="actions"><a class="action action--support" href="supports/florian-lemoine-web-semantique.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/KRBbbfv9xu2eV52Alb5x" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article>
+</section>
+    <section class="lc-tracks__colonne lc-tracks__colonne--produit" id="panneau-produit" role="tabpanel" aria-labelledby="onglet-produit" hidden>
+  <div class="lc-tracks__entete"><h3 class="lc-tracks__titre">Track produit</h3></div>
+  <article class="lc-session" id="s-posture">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">14h15 – 15h00</span>
+    <span class="lc-badge lc-badge--conference">Conférence</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>C06</span>
+  </div>
+  <h3 class="lc-session__titre">IA et transfo des métiers : une histoire de posture, plus que d&#x27;outils</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-kc">Katia Cadet</a></p>
+  <div class="actions"><a class="action action--support" href="supports/katia-cadet-posture-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/JyizOu7JI5imBF9uMs1N" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article>
+<article class="lc-session" id="s-goulot">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">15h00 – 15h45</span>
+    <span class="lc-badge lc-badge--conference">Conférence</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>C06</span>
+  </div>
+  <h3 class="lc-session__titre">Où se déplace le goulot quand l&#x27;IA écrit le code ?</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-cg">Constantin Guay</a></p>
+  <div class="actions"><a class="action action--support" href="supports/constantin-guay-goulot-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/2x0mz6Qk3m9MoL8Sl3N5" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article>
+</section>
+  </div>
+</div>
+<div class="lc-separateur" aria-hidden="true"><span class="lc-separateur__point"></span></div>
+<div class="lc-repere"><h3 class="lc-repere__libelle">Clôture</h3><span class="lc-repere__plage">15h45 – 18h00 · plénière</span><span class="lc-repere__filet"></span></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">15h45</span>
+<div class="lc-session lc-session--pause"><span class="lc-badge lc-badge--pause">Pause</span><p class="lc-session__titre">Pause · 15h45 – 16h15</p></div></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">16h15</span><article class="lc-session" id="s-logiciel">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">16h15 – 17h15</span>
+    <span class="lc-badge lc-badge--table-ronde">Table ronde</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Dix fois plus de logiciel sur mesure : qui va le tenir ?</h3>
+  <p class="lc-session__intervenants"><span class="lc-session__role">Animation :</span> <a class="lien-nom" href="#int-jl">Julien Lefebvre</a></p>
+  <p class="lc-session__intervenants tr-avec"><span class="lc-session__role">Avec :</span> <a class="lien-nom" href="#int-hg">Hubert Grégoire</a>, <a class="lien-nom" href="#int-cg">Constantin Guay</a>, <a class="lien-nom" href="#int-mb">Manon Barthélémy</a>, <a class="lien-nom" href="#int-fn">François Nikolenko</a></p>
+  <div class="actions"><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/eRLNgwWch08GcQkEYiup" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-grille-horaire"><span class="lc-session__heure lc-session__heure--colonne" aria-hidden="true">17h15</span><article class="lc-session" id="s-cloture">
+  <div class="lc-session__haut">
+    <span class="lc-session__heure">17h15 – 18h00</span>
+    <span class="lc-badge lc-badge--keynote">Keynote de clôture</span>
+    <span class="salle"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>Studio 2</span>
+  </div>
+  <h3 class="lc-session__titre">Construire un agent d&#x27;aide au code sans écrire de code, avec docker-agent, Docker Model Runner et un tout petit LLM local</h3>
+  <p class="lc-session__intervenants"><a class="lien-nom" href="#int-ph">Philippe Charrière</a></p>
+  <div class="actions"><a class="action action--support" href="https://codeberg.org/talks/2026-09-ExFabrica-Commit-26" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Dépôt du talk (Codeberg)</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24/ZVNYnYupVyqFs4uNpnRY" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Donner ou lire un avis</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div>
+</article></div>
+<div class="lc-repere"><h3 class="lc-repere__libelle">Soirée</h3><span class="lc-repere__plage">à partir de 18h30</span><span class="lc-repere__filet"></span></div>
+<div class="lc-session lc-session--pause"><span class="lc-badge lc-badge--pause">Repas</span><p class="lc-session__titre">Cocktail et repas dînatoire, dans la foulée</p></div>
+
+  </section>
+
+  <section class="section" id="intervenants" aria-labelledby="t-intervenants">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-intervenants">Intervenants</h2>
+      <p class="section-chapo">Douze personnes sur scène ou autour des tables rondes. Chaque fiche liste les sessions auxquelles elles ont participé.</p>
+    </div>
+    <div class="int-grille">
+      <article class="lc-intervenant" id="int-cg">
+  <img class="lc-intervenant__photo" src="img/64d0479ed1.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Constantin Guay</h3>
+    <p class="lc-intervenant__fonction">CPO et Delivery Manager de transition</p><p class="lc-intervenant__entreprise">CGC</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/constantinguay" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Constantin Guay"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-keynote">Des applications produites par n&#x27;importe qui : et nos métiers ?</a></li><li><a href="#s-logiciel">Dix fois plus de logiciel sur mesure : qui va le tenir ?</a></li><li><a href="#s-goulot">Où se déplace le goulot quand l&#x27;IA écrit le code ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-pc">
+  <img class="lc-intervenant__photo" src="img/79e9c3fdac.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Paul Chevalier</h3>
+    <p class="lc-intervenant__fonction">Partner CTO</p><p class="lc-intervenant__entreprise">Socratiz</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/paul-chevalier-59921630" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Paul Chevalier"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-geo">Géopolitique de l&#x27;IA et enjeux de souveraineté</a></li><li><a href="#s-memoire">La mémoire d&#x27;entreprise : qu&#x27;est-ce qui mérite d&#x27;être gardé ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-hg">
+  <img class="lc-intervenant__photo" src="img/00bbcbf419.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Hubert Grégoire</h3>
+    <p class="lc-intervenant__fonction">Chief Technology Officer</p><p class="lc-intervenant__entreprise">exFabrica</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/hgregoir" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Hubert Grégoire"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-agents">Quand les agents IA sortent du cadre</a></li><li><a href="#s-logiciel">Dix fois plus de logiciel sur mesure : qui va le tenir ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-ft">
+  <img class="lc-intervenant__photo" src="img/f9906a56b9.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">François Teychene</h3>
+    <p class="lc-intervenant__fonction">Solution engineer, architecte et tech lead</p><p class="lc-intervenant__entreprise">NullPointeur</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/fteychene" target="_blank" rel="noopener" aria-label="Profil LinkedIn de François Teychene"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-100x">Après le 10x engineer, peut-on construire des 100x engineers ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-fl">
+  <img class="lc-intervenant__photo" src="img/ede34b5030.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Florian Lemoine</h3>
+    <p class="lc-intervenant__fonction">Lead Engineer</p><p class="lc-intervenant__entreprise">e-Science Data Factory</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/lemoineflorian" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Florian Lemoine"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-websem">Web sémantique et langage naturel : le cas du reporting européen</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-kc">
+  <img class="lc-intervenant__photo" src="img/e938209572.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Katia Cadet</h3>
+    <p class="lc-intervenant__fonction">Head of Product Design</p><p class="lc-intervenant__entreprise">Softway Medical</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/katia-cadet-72824a3b" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Katia Cadet"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-posture">IA et transfo des métiers : une histoire de posture, plus que d&#x27;outils</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-ph">
+  <img class="lc-intervenant__photo" src="img/4b07386028.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Philippe Charrière</h3>
+    <p class="lc-intervenant__fonction">Principal Solutions Architect</p><p class="lc-intervenant__entreprise">Docker</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/phcharriere" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Philippe Charrière"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-cloture">Construire un agent d&#x27;aide au code sans écrire de code, avec docker-agent, Docker Model Runner et un tout petit LLM local</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-jl">
+  <img class="lc-intervenant__photo" src="img/c10428e6fb.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Julien Lefebvre</h3>
+    <p class="lc-intervenant__fonction">Founding Partner</p><p class="lc-intervenant__entreprise">exFabrica</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/julien-lefebvre-dev" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Julien Lefebvre"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-memoire">La mémoire d&#x27;entreprise : qu&#x27;est-ce qui mérite d&#x27;être gardé ?</a></li><li><a href="#s-logiciel">Dix fois plus de logiciel sur mesure : qui va le tenir ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-sv">
+  <img class="lc-intervenant__photo" src="img/4543801be8.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Swann Le Vigouroux</h3>
+    <p class="lc-intervenant__fonction">Agentic engineer et stratégie tech, en indépendant</p><p class="lc-intervenant__entreprise">LVGX</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/swannlv" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Swann Le Vigouroux"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-memoire">La mémoire d&#x27;entreprise : qu&#x27;est-ce qui mérite d&#x27;être gardé ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-nm">
+  <img class="lc-intervenant__photo" src="img/b530ffa059.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Nicolas Malburet</h3>
+    <p class="lc-intervenant__fonction">Software Engineer</p><p class="lc-intervenant__entreprise">exFabrica</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/nicolas-malburet" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Nicolas Malburet"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-memoire">La mémoire d&#x27;entreprise : qu&#x27;est-ce qui mérite d&#x27;être gardé ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-mb">
+  <img class="lc-intervenant__photo" src="img/3f99248d26.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">Manon Barthélémy</h3>
+    <p class="lc-intervenant__fonction">Cofondatrice de DEVmachine et CTPO de Sharly</p><p class="lc-intervenant__entreprise">DEVmachine</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/manon-barth%C3%A9l%C3%A9my-a77b9549" target="_blank" rel="noopener" aria-label="Profil LinkedIn de Manon Barthélémy"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-logiciel">Dix fois plus de logiciel sur mesure : qui va le tenir ?</a></li></ul>
+  </div>
+</article>
+<article class="lc-intervenant" id="int-fn">
+  <img class="lc-intervenant__photo" src="img/e71db02a31.webp" alt="" width="72" height="72">
+  <div class="int-corps">
+    <h3 class="lc-intervenant__nom">François Nikolenko</h3>
+    <p class="lc-intervenant__fonction">CPO et cofondateur</p><p class="lc-intervenant__entreprise">Yeita</p>
+    <a class="int-linkedin" href="https://www.linkedin.com/in/fran%C3%A7ois-nikolenko" target="_blank" rel="noopener" aria-label="Profil LinkedIn de François Nikolenko"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span>LinkedIn</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+    <ul class="int-sessions"><li><a href="#s-logiciel">Dix fois plus de logiciel sur mesure : qui va le tenir ?</a></li></ul>
+  </div>
+</article>
+    </div>
+  </section>
+
+  <section class="section" id="supports" aria-labelledby="t-supports">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-supports">Supports de présentation</h2>
+      <p class="section-chapo">Tous les supports au même endroit, dans l'ordre de la journée.</p>
+    </div>
+    <ul class="sup-liste">
+      <li class="sup-ligne"><div><a class="sup-titre" href="#s-keynote">Des applications produites par n&#x27;importe qui : et nos métiers ?</a><p class="sup-noms">Constantin Guay</p></div><div class="sup-liens"><a class="action action--support" href="supports/constantin-guay-keynote-ouverture.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-geo">Géopolitique de l&#x27;IA et enjeux de souveraineté</a><p class="sup-noms">Paul Chevalier</p></div><div class="sup-liens"><a class="action action--support" href="supports/paul-chevalier-geopolitique-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-agents">Quand les agents IA sortent du cadre</a><p class="sup-noms">Hubert Grégoire</p></div><div class="sup-liens"><a class="action action--support" href="supports/hubert-gregoire-agents-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a><a class="action action--support" href="supports/owasp-agentic-top10-2026.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>OWASP Agentic Top 10 (PDF)</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-100x">Après le 10x engineer, peut-on construire des 100x engineers ?</a><p class="sup-noms">François Teychene</p></div><div class="sup-liens"><a class="action action--support" href="https://fteychene.github.io/conference-agent-whisperer/commit2026/index.html" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Slides en ligne</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-posture">IA et transfo des métiers : une histoire de posture, plus que d&#x27;outils</a><p class="sup-noms">Katia Cadet</p></div><div class="sup-liens"><a class="action action--support" href="supports/katia-cadet-posture-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-websem">Web sémantique et langage naturel : le cas du reporting européen</a><p class="sup-noms">Florian Lemoine</p></div><div class="sup-liens"><a class="action action--support" href="supports/florian-lemoine-web-semantique.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-goulot">Où se déplace le goulot quand l&#x27;IA écrit le code ?</a><p class="sup-noms">Constantin Guay</p></div><div class="sup-liens"><a class="action action--support" href="supports/constantin-guay-goulot-ia.pdf" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Support PDF</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+<li class="sup-ligne"><div><a class="sup-titre" href="#s-cloture">Construire un agent d&#x27;aide au code sans écrire de code, avec docker-agent, Docker Model Runner et un tout petit LLM local</a><p class="sup-noms">Philippe Charrière</p></div><div class="sup-liens"><a class="action action--support" href="https://codeberg.org/talks/2026-09-ExFabrica-Commit-26" target="_blank" rel="noopener"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/></svg><span>Dépôt du talk (Codeberg)</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a></div></li>
+    </ul>
+  </section>
+
+  <section class="section" id="lieu" aria-labelledby="t-lieu">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-lieu">Le lieu</h2>
+      <p class="section-chapo">Le Commit 2026 s'est tenu à <a href="https://www.thecamp.fr" target="_blank" rel="noopener">The Camp</a>, à Aix-en-Provence : un campus aux bâtiments circulaires, posé au milieu de la garrigue. La plénière et la track tech se tenaient en Studio 2, la track produit en salle C06.</p>
+    </div>
+    <div class="lieu-grille">
+      <figure class="lieu-fig lieu-fig--grande"><button class="photo lieu-photo lieu-photo--grande" type="button" data-i="31" aria-label="Agrandir : Le patio et ses voiles tendues"><img src="img/9ca7c22987.jpg" width="1050" height="1400" alt="" decoding="async" loading="lazy"></button><figcaption>Le patio et ses voiles tendues</figcaption></figure>
+<figure class="lieu-fig"><button class="photo lieu-photo" type="button" data-i="32" aria-label="Agrandir : Le jardin intérieur, entouré des salles"><img src="img/4f289df931.jpg" width="1050" height="1400" alt="" decoding="async" loading="lazy"></button><figcaption>Le jardin intérieur, entouré des salles</figcaption></figure>
+<figure class="lieu-fig"><button class="photo lieu-photo" type="button" data-i="33" aria-label="Agrandir : Lever de lune sur la garrigue"><img src="img/e21df5413e.jpg" width="1050" height="1400" alt="" decoding="async" loading="lazy"></button><figcaption>Lever de lune sur la garrigue</figcaption></figure>
+<figure class="lieu-fig"><button class="photo lieu-photo" type="button" data-i="34" aria-label="Agrandir : Coucher de soleil depuis le domaine"><img src="img/2fe46386d4.jpg" width="1050" height="1400" alt="" decoding="async" loading="lazy"></button><figcaption>Coucher de soleil depuis le domaine</figcaption></figure>
+    </div>
+    <a class="bouton bouton--sec" href="https://www.thecamp.fr" target="_blank" rel="noopener">Découvrir The Camp <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+  </section>
+
+  <section class="section" id="avis" aria-labelledby="t-avis">
+    <div class="section-tete">
+      <h2 class="section-titre" id="t-avis">Vos avis</h2>
+      <p class="section-chapo">Les retours sur chaque intervention ont été recueillis avec OpenFeedback. La page reste ouverte : vous pouvez encore voter, commenter et lire les avis des autres participants.</p>
+    </div>
+    <div class="avis">
+      <div class="encart encart--avis">
+        <span class="encart__ico"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        <h3 class="encart__titre">OpenFeedback du 24 septembre</h3>
+        <p>Chaque intervention du programme a son propre lien d'avis. Vous pouvez aussi ouvrir la page de la journée, choisir une session, puis voter pour les mots qui la décrivent le mieux ou laissez un commentaire aux intervenants. Les avis sont anonymes.</p>
+        <a class="bouton" href="https://openfeedback.io/xkN7TjxGxRAmBnhCbLbW/2026-09-24" target="_blank" rel="noopener">Ouvrir OpenFeedback <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+      <div class="encart">
+        <span class="encart__ico"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+        <h3 class="encart__titre">La playlist du jour</h3>
+        <p>La musique diffusée entre les talks, à réécouter sur Spotify.</p>
+        <a class="bouton bouton--sec" href="https://open.spotify.com/playlist/5w5vHnzGpar9MyJuLezyDD" target="_blank" rel="noopener">Écouter la playlist <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="lc-pied">
+  <div class="lc-contenu">
+    <div class="lc-pied__grille">
+      <div>
+        <div class="lc-pied__logo"><svg viewBox="484 243 749 199" xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" aria-label="Le Commit, par exFabrica" fill="currentColor"><path d="M1162.43 361.355C1158.95 361.355 1156.08 360.228 1153.83 357.975C1151.68 355.721 1150.6 352.853 1150.6 349.371V303.583H1128.01V285.146H1150.6V253.801H1169.96V285.146H1197.46V303.583H1169.96V338.308C1169.96 341.381 1171.34 342.917 1174.11 342.917H1197.46V361.355H1162.43Z" fill="currentColor"/><path d="M1096.13 278.193C1092.14 278.193 1088.71 276.81 1085.84 274.044C1082.97 271.176 1081.54 267.693 1081.54 263.596C1081.54 259.499 1082.97 256.067 1085.84 253.302C1088.71 250.434 1092.14 249 1096.13 249C1100.13 249 1103.56 250.434 1106.43 253.302C1109.3 256.067 1110.73 259.499 1110.73 263.596C1110.73 267.693 1109.3 271.176 1106.43 274.044C1103.56 276.81 1100.13 278.193 1096.13 278.193ZM1060.79 362.392V343.954H1086.61V304.62H1062.64V286.182H1105.97V343.954H1128.09V362.392H1060.79Z" fill="currentColor"/><path d="M965.964 362.171V285.962H985.324V293.337H988.089C988.704 290.571 990.138 288.318 992.391 286.576C994.645 284.732 997.513 283.811 1001 283.811C1004.38 283.811 1007.24 284.732 1009.6 286.576C1012.06 288.318 1013.65 290.571 1014.36 293.337H1017.13C1017.95 290.571 1019.69 288.318 1022.35 286.576C1025.02 284.732 1028.24 283.811 1032.03 283.811C1037.15 283.811 1041.25 285.552 1044.32 289.035C1047.4 292.415 1048.93 297.127 1048.93 303.17V362.171H1029.57V308.702C1029.57 306.551 1029.01 304.963 1027.88 303.939C1026.86 302.812 1025.48 302.248 1023.74 302.248C1021.79 302.248 1020.2 302.863 1018.97 304.092C1017.74 305.321 1017.13 307.165 1017.13 309.623V362.171H997.769V308.702C997.769 306.551 997.154 304.963 995.925 303.939C994.799 302.812 993.416 302.248 991.777 302.248C989.933 302.248 988.397 302.863 987.167 304.092C985.938 305.321 985.324 307.165 985.324 309.623V362.171H965.964Z" fill="currentColor"/><path d="M871.134 362.171V285.962H890.493V293.337H893.259C893.874 290.571 895.308 288.318 897.561 286.576C899.815 284.732 902.683 283.811 906.166 283.811C909.546 283.811 912.414 284.732 914.77 286.576C917.228 288.318 918.816 290.571 919.533 293.337H922.299C923.118 290.571 924.86 288.318 927.523 286.576C930.186 284.732 933.413 283.811 937.203 283.811C942.324 283.811 946.422 285.552 949.494 289.035C952.567 292.415 954.104 297.127 954.104 303.17V362.171H934.744V308.702C934.744 306.551 934.181 304.963 933.054 303.939C932.03 302.812 930.647 302.248 928.906 302.248C926.959 302.248 925.372 302.863 924.143 304.092C922.913 305.321 922.299 307.165 922.299 309.623V362.171H902.939V308.702C902.939 306.551 902.324 304.963 901.095 303.939C899.968 302.812 898.586 302.248 896.947 302.248C895.103 302.248 893.566 302.863 892.337 304.092C891.108 305.321 890.493 307.165 890.493 309.623V362.171H871.134Z" fill="currentColor"/><path d="M819.547 364.322C812.581 364.322 806.077 362.786 800.033 359.713C793.99 356.64 789.124 352.184 785.437 346.345C781.749 340.507 779.905 333.388 779.905 324.988V323.145C779.905 314.848 781.749 307.78 785.437 301.941C789.124 296 793.99 291.493 800.033 288.42C806.077 285.347 812.581 283.811 819.547 283.811C826.512 283.811 833.016 285.347 839.06 288.42C845.103 291.493 849.969 296 853.656 301.941C857.344 307.78 859.188 314.848 859.188 323.145V324.988C859.188 333.388 857.344 340.507 853.656 346.345C849.969 352.184 845.103 356.64 839.06 359.713C833.016 362.786 826.512 364.322 819.547 364.322ZM819.547 345.885C825.18 345.885 829.943 344.092 833.836 340.507C837.831 336.819 839.828 331.851 839.828 325.603V322.53C839.828 316.179 837.831 311.211 833.836 307.626C829.943 304.041 825.18 302.248 819.547 302.248C813.913 302.248 809.098 304.041 805.104 307.626C801.211 311.211 799.265 316.179 799.265 322.53V325.603C799.265 331.851 801.211 336.819 805.104 340.507C809.098 344.092 813.913 345.885 819.547 345.885Z" fill="currentColor"/><path d="M728.949 364.457C716.657 364.457 706.926 360.718 699.755 353.24C692.585 345.66 689 334.751 689 320.513V296.544C689 282.716 692.585 271.96 699.755 264.278C706.926 256.493 716.657 252.601 728.949 252.601C741.753 252.601 751.484 256.186 758.142 263.356C764.902 270.526 768.283 280.257 768.283 292.549V295.315H748.001V292.549C748.001 289.169 747.438 285.84 746.311 282.562C745.184 279.182 743.238 276.416 740.472 274.265C737.707 272.114 733.865 271.038 728.949 271.038C724.442 271.038 720.703 272.165 717.732 274.419C714.864 276.57 712.713 279.489 711.279 283.177C709.947 286.762 709.282 290.705 709.282 295.008V322.05C709.282 329.015 710.767 334.751 713.737 339.258C716.708 343.765 721.778 346.019 728.949 346.019C734.173 346.019 738.167 344.995 740.933 342.946C743.699 340.897 745.543 338.234 746.465 334.956C747.489 331.678 748.001 328.196 748.001 324.508V321.742H768.283V324.508C768.283 337.21 764.902 347.043 758.142 354.009C751.484 360.974 741.753 364.457 728.949 364.457Z" fill="currentColor"/><path d="M612.026 363.986C604.446 363.986 597.737 362.398 591.898 359.223C586.06 355.945 581.502 351.284 578.224 345.241C574.946 339.197 573.307 331.924 573.307 323.423V322.501C573.307 314.716 575.048 307.904 578.531 302.065C582.014 296.227 586.623 291.669 592.359 288.391C598.198 285.113 604.651 283.474 611.719 283.474C618.275 283.474 623.909 284.601 628.62 286.854C633.332 289.108 637.174 292.027 640.144 295.612C643.217 299.197 645.471 303.141 646.905 307.443C648.441 311.643 649.209 315.74 649.209 319.735V330.029H593.281C593.486 334.537 595.381 338.275 598.966 341.246C602.551 344.114 606.802 345.548 611.719 345.548C616.533 345.548 620.221 344.677 622.782 342.936C625.445 341.195 627.289 339.197 628.313 336.944L644.907 346.163C643.78 348.723 641.885 351.387 639.222 354.152C636.661 356.918 633.179 359.274 628.774 361.22C624.37 363.064 618.787 363.986 612.026 363.986ZM593.589 313.435H629.542C628.928 309.85 626.982 306.88 623.704 304.524C620.528 302.168 616.482 300.99 611.565 300.99C606.751 300.99 602.756 302.27 599.581 304.831C596.508 307.29 594.51 310.158 593.589 313.435Z" fill="currentColor"/><path d="M490 361.355V342.917H516.735V272.239H490.922V253.801H536.095V342.917H560.986V361.355H490Z" fill="currentColor"/><circle cx="1217.85" cy="352" r="9" fill="currentColor"/><path d="M1004.8 416.16C1004.8 418.08 1004.4 419.808 1003.6 421.344C1002.8 422.88 1001.68 424.08 1000.24 424.944C998.834 425.808 997.234 426.24 995.442 426.24C993.266 426.24 991.426 425.36 989.922 423.6V436.416H985.17V406.368H987.522C988.194 406.368 988.754 406.592 989.202 407.04C989.682 407.584 989.922 408.144 989.922 408.72V408.768C991.426 407.008 993.266 406.128 995.442 406.128C997.234 406.128 998.834 406.56 1000.24 407.424C1001.68 408.288 1002.8 409.488 1003.6 411.024C1004.4 412.528 1004.8 414.24 1004.8 416.16ZM1000.1 416.16C1000.1 414.336 999.602 412.848 998.61 411.696C997.618 410.512 996.418 409.92 995.01 409.92C993.57 409.92 992.354 410.512 991.362 411.696C990.402 412.848 989.922 414.336 989.922 416.16C989.922 418.016 990.402 419.536 991.362 420.72C992.354 421.872 993.57 422.448 995.01 422.448C996.418 422.448 997.618 421.856 998.61 420.672C999.602 419.488 1000.1 417.984 1000.1 416.16ZM1022.15 423.6C1020.64 425.36 1018.79 426.24 1016.58 426.24C1014.79 426.24 1013.17 425.808 1011.73 424.944C1010.32 424.08 1009.22 422.88 1008.42 421.344C1007.62 419.808 1007.22 418.08 1007.22 416.16C1007.22 414.24 1007.62 412.528 1008.42 411.024C1009.22 409.488 1010.32 408.288 1011.73 407.424C1013.17 406.56 1014.79 406.128 1016.58 406.128C1018.79 406.128 1020.64 407.008 1022.15 408.768V408.72C1022.15 408.08 1022.37 407.536 1022.82 407.088C1023.3 406.608 1023.86 406.368 1024.5 406.368H1026.85V426H1022.15V423.6ZM1022.15 416.16C1022.15 414.336 1021.65 412.848 1020.66 411.696C1019.67 410.512 1018.47 409.92 1017.06 409.92C1015.62 409.92 1014.4 410.512 1013.41 411.696C1012.45 412.848 1011.97 414.336 1011.97 416.16C1011.97 418.016 1012.45 419.536 1013.41 420.72C1014.4 421.872 1015.62 422.448 1017.06 422.448C1018.47 422.448 1019.67 421.856 1020.66 420.672C1021.65 419.488 1022.15 417.984 1022.15 416.16ZM1036.42 408.768C1037.03 407.968 1037.81 407.328 1038.77 406.848C1039.73 406.368 1040.84 406.128 1042.09 406.128H1043.05V411.168C1042.76 410.912 1042.37 410.72 1041.89 410.592C1041.41 410.464 1040.92 410.4 1040.41 410.4C1039.25 410.4 1038.29 410.864 1037.53 411.792C1036.79 412.688 1036.42 414.032 1036.42 415.824V426H1031.67V406.368H1034.02C1034.69 406.368 1035.25 406.608 1035.7 407.088C1036.18 407.536 1036.42 408.08 1036.42 408.72V408.768ZM1073.7 416.16C1073.7 416.864 1073.67 417.376 1073.6 417.696H1060.11C1060.4 419.136 1060.99 420.288 1061.89 421.152C1062.82 422.016 1063.89 422.448 1065.11 422.448C1066.07 422.448 1066.95 422.224 1067.75 421.776C1068.55 421.296 1069.25 420.608 1069.86 419.712L1073.17 421.968C1072.31 423.312 1071.15 424.368 1069.71 425.136C1068.31 425.872 1066.77 426.24 1065.11 426.24C1063.31 426.24 1061.67 425.808 1060.16 424.944C1058.66 424.08 1057.46 422.88 1056.56 421.344C1055.7 419.808 1055.27 418.08 1055.27 416.16C1055.27 414.272 1055.68 412.56 1056.51 411.024C1057.38 409.488 1058.53 408.288 1059.97 407.424C1061.44 406.56 1063.07 406.128 1064.87 406.128C1066.63 406.128 1068.18 406.56 1069.52 407.424C1070.87 408.288 1071.89 409.488 1072.59 411.024C1073.33 412.528 1073.7 414.24 1073.7 416.16ZM1069.14 414.624C1069.04 413.216 1068.59 412.08 1067.79 411.216C1067.03 410.352 1066.05 409.92 1064.87 409.92C1063.68 409.92 1062.66 410.352 1061.79 411.216C1060.96 412.048 1060.4 413.184 1060.11 414.624H1069.14ZM1074.9 406.368H1078.79C1079.21 406.368 1079.59 406.464 1079.94 406.656C1080.29 406.848 1080.58 407.12 1080.81 407.472L1083.64 412.128L1086.52 407.472C1086.74 407.12 1087.03 406.848 1087.38 406.656C1087.73 406.464 1088.12 406.368 1088.53 406.368H1092.42L1086.47 415.824L1092.85 426H1089.01C1088.15 426 1087.48 425.632 1087 424.896L1083.64 419.472L1080.33 424.896C1080.1 425.248 1079.81 425.52 1079.46 425.712C1079.11 425.904 1078.73 426 1078.31 426H1074.42L1080.81 415.824L1074.9 406.368ZM1115.86 399.024C1115.86 399.696 1115.64 400.256 1115.19 400.704C1114.68 401.152 1114.12 401.376 1113.51 401.376H1100.98V409.2H1112.07V411.312C1112.07 411.984 1111.84 412.544 1111.4 412.992C1110.92 413.472 1110.36 413.712 1109.72 413.712H1100.98V426H1096.23V396.912H1115.86V399.024ZM1129.12 423.6C1127.61 425.36 1125.76 426.24 1123.55 426.24C1121.76 426.24 1120.14 425.808 1118.7 424.944C1117.29 424.08 1116.19 422.88 1115.39 421.344C1114.59 419.808 1114.19 418.08 1114.19 416.16C1114.19 414.24 1114.59 412.528 1115.39 411.024C1116.19 409.488 1117.29 408.288 1118.7 407.424C1120.14 406.56 1121.76 406.128 1123.55 406.128C1125.76 406.128 1127.61 407.008 1129.12 408.768V408.72C1129.12 408.08 1129.34 407.536 1129.79 407.088C1130.27 406.608 1130.83 406.368 1131.47 406.368H1133.82V426H1129.12V423.6ZM1129.12 416.16C1129.12 414.336 1128.62 412.848 1127.63 411.696C1126.64 410.512 1125.44 409.92 1124.03 409.92C1122.59 409.92 1121.37 410.512 1120.38 411.696C1119.42 412.848 1118.94 414.336 1118.94 416.16C1118.94 418.016 1119.42 419.536 1120.38 420.72C1121.37 421.872 1122.59 422.448 1124.03 422.448C1125.44 422.448 1126.64 421.856 1127.63 420.672C1128.62 419.488 1129.12 417.984 1129.12 416.16ZM1158.27 416.16C1158.27 418.08 1157.87 419.808 1157.07 421.344C1156.27 422.88 1155.15 424.08 1153.71 424.944C1152.3 425.808 1150.7 426.24 1148.91 426.24C1146.73 426.24 1144.89 425.36 1143.39 423.6V426H1138.64V396.912H1140.99C1141.66 396.912 1142.22 397.152 1142.67 397.632C1143.15 398.08 1143.39 398.624 1143.39 399.264V408.768C1144.89 407.008 1146.73 406.128 1148.91 406.128C1150.7 406.128 1152.3 406.56 1153.71 407.424C1155.15 408.288 1156.27 409.488 1157.07 411.024C1157.87 412.528 1158.27 414.24 1158.27 416.16ZM1153.57 416.16C1153.57 414.336 1153.07 412.848 1152.08 411.696C1151.09 410.512 1149.89 409.92 1148.48 409.92C1147.04 409.92 1145.82 410.512 1144.83 411.696C1143.87 412.848 1143.39 414.336 1143.39 416.16C1143.39 418.016 1143.87 419.536 1144.83 420.72C1145.82 421.872 1147.04 422.448 1148.48 422.448C1149.89 422.448 1151.09 421.856 1152.08 420.672C1153.07 419.488 1153.57 417.984 1153.57 416.16ZM1166.64 408.768C1167.25 407.968 1168.03 407.328 1168.99 406.848C1169.95 406.368 1171.06 406.128 1172.3 406.128H1173.26V411.168C1172.98 410.912 1172.59 410.72 1172.11 410.592C1171.63 410.464 1171.14 410.4 1170.62 410.4C1169.47 410.4 1168.51 410.864 1167.74 411.792C1167.01 412.688 1166.64 414.032 1166.64 415.824V426H1161.89V406.368H1164.24C1164.91 406.368 1165.47 406.608 1165.92 407.088C1166.4 407.536 1166.64 408.08 1166.64 408.72V408.768ZM1181.56 399.504C1181.56 400.304 1181.29 400.976 1180.75 401.52C1180.2 402.064 1179.53 402.336 1178.73 402.336C1177.96 402.336 1177.29 402.064 1176.71 401.52C1176.17 400.976 1175.9 400.304 1175.9 399.504C1175.9 398.704 1176.17 398.032 1176.71 397.488C1177.29 396.944 1177.96 396.672 1178.73 396.672C1179.53 396.672 1180.2 396.944 1180.75 397.488C1181.29 398.032 1181.56 398.704 1181.56 399.504ZM1176.38 408.72C1176.38 408.08 1176.6 407.536 1177.05 407.088C1177.53 406.608 1178.09 406.368 1178.73 406.368H1181.08V426H1176.38V408.72ZM1194.76 409.92C1193.32 409.92 1192.11 410.512 1191.11 411.696C1190.15 412.848 1189.67 414.336 1189.67 416.16C1189.67 418.016 1190.15 419.536 1191.11 420.72C1192.11 421.872 1193.32 422.448 1194.76 422.448C1195.72 422.448 1196.6 422.224 1197.4 421.776C1198.23 421.296 1198.94 420.608 1199.51 419.712L1202.87 421.968C1201.98 423.312 1200.81 424.368 1199.37 425.136C1197.96 425.872 1196.43 426.24 1194.76 426.24C1192.97 426.24 1191.32 425.808 1189.82 424.944C1188.31 424.048 1187.11 422.832 1186.22 421.296C1185.35 419.76 1184.92 418.048 1184.92 416.16V416.112C1184.92 414.224 1185.35 412.528 1186.22 411.024C1187.11 409.488 1188.31 408.288 1189.82 407.424C1191.32 406.56 1192.97 406.128 1194.76 406.128C1196.43 406.128 1197.96 406.512 1199.37 407.28C1200.81 408.016 1201.98 409.056 1202.87 410.4L1199.51 412.656C1198.94 411.76 1198.23 411.088 1197.4 410.64C1196.6 410.16 1195.72 409.92 1194.76 409.92ZM1219.73 423.6C1218.22 425.36 1216.37 426.24 1214.16 426.24C1212.37 426.24 1210.75 425.808 1209.31 424.944C1207.9 424.08 1206.8 422.88 1206 421.344C1205.2 419.808 1204.8 418.08 1204.8 416.16C1204.8 414.24 1205.2 412.528 1206 411.024C1206.8 409.488 1207.9 408.288 1209.31 407.424C1210.75 406.56 1212.37 406.128 1214.16 406.128C1216.37 406.128 1218.22 407.008 1219.73 408.768V408.72C1219.73 408.08 1219.95 407.536 1220.4 407.088C1220.88 406.608 1221.44 406.368 1222.08 406.368H1224.43V426H1219.73V423.6ZM1219.73 416.16C1219.73 414.336 1219.23 412.848 1218.24 411.696C1217.25 410.512 1216.05 409.92 1214.64 409.92C1213.2 409.92 1211.98 410.512 1210.99 411.696C1210.03 412.848 1209.55 414.336 1209.55 416.16C1209.55 418.016 1210.03 419.536 1210.99 420.72C1211.98 421.872 1213.2 422.448 1214.64 422.448C1216.05 422.448 1217.25 421.856 1218.24 420.672C1219.23 419.488 1219.73 417.984 1219.73 416.16Z" fill="currentColor"/></svg></div>
+        <p class="lc-pied__mention">Édition 2026 · Jeudi 24 septembre 2026 · <a href="https://www.thecamp.fr" target="_blank" rel="noopener">The Camp</a>, Aix-en-Provence</p>
+      </div>
+      <ul class="lc-pied__liens">
+        <li><a href="#photos">Photos</a></li>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#intervenants">Intervenants</a></li>
+        <li><a href="#supports">Supports</a></li>
+        <li><a href="#lieu">Lieu</a></li>
+        <li><a href="https://exfabrica.io" target="_blank" rel="noopener">exfabrica.io</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="visio" id="visio" role="dialog" aria-modal="true" aria-label="Visionneuse de photos" data-ouvert="false">
+  <div class="visio__haut">
+    <span class="visio__compteur" id="visio-compteur"></span>
+    <button class="btn-ico" type="button" id="visio-fermer" aria-label="Fermer la visionneuse"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  </div>
+  <div class="visio__scene"><img id="visio-img" alt=""></div>
+  <div class="visio__bas">
+    <button class="btn-ico" type="button" id="visio-prec" aria-label="Photo précédente"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <p class="visio__legende" id="visio-legende"></p>
+    <button class="btn-ico" type="button" id="visio-suiv" aria-label="Photo suivante"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // Bascule des tracks en mobile
+  var onglets = document.querySelectorAll('.lc-tracks__onglet');
+  onglets.forEach(function (o) {
+    o.addEventListener('click', function () {
+      onglets.forEach(function (x) {
+        var actif = x === o;
+        x.setAttribute('aria-selected', actif ? 'true' : 'false');
+        x.tabIndex = actif ? 0 : -1;
+        document.getElementById(x.getAttribute('aria-controls')).hidden = !actif;
+      });
+    });
+    o.addEventListener('keydown', function (ev) {
+      if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') {
+        var autre = Array.prototype.find.call(onglets, function (x) { return x !== o; });
+        autre.focus(); autre.click();
+      }
+    });
+  });
+
+  // Un lien vers une session de l'après-midi bascule sur le bon track
+  function montrerCible() {
+    var id = location.hash.slice(1);
+    if (!id) return;
+    var el = document.getElementById(id);
+    if (!el) return;
+    var col = el.closest('.lc-tracks__colonne');
+    if (col && col.hidden) {
+      var onglet = document.querySelector('[aria-controls="' + col.id + '"]');
+      if (onglet) onglet.click();
+      el.scrollIntoView();
+    }
+  }
+  window.addEventListener('hashchange', montrerCible);
+  montrerCible();
+
+  // Visionneuse
+  var legendes = ["9h36 · Ouverture et keynote d'ouverture", "9h37 · Ouverture et keynote d'ouverture", "9h41 · Ouverture et keynote d'ouverture", "9h47 · Ouverture et keynote d'ouverture", "9h57 · Ouverture et keynote d'ouverture", "9h57 · Ouverture et keynote d'ouverture", "9h57 · Ouverture et keynote d'ouverture", "9h58 · Ouverture et keynote d'ouverture", "10h14 · Géopolitique de l'IA et enjeux de souveraineté", "10h15 · Géopolitique de l'IA et enjeux de souveraineté", "10h32 · Géopolitique de l'IA et enjeux de souveraineté", "10h32 · Géopolitique de l'IA et enjeux de souveraineté", "10h48 · Pause du matin", "10h50 · Pause du matin", "11h40 · Quand les agents IA sortent du cadre", "11h40 · Quand les agents IA sortent du cadre", "11h40 · Quand les agents IA sortent du cadre", "11h41 · Quand les agents IA sortent du cadre", "11h41 · Quand les agents IA sortent du cadre", "11h41 · Quand les agents IA sortent du cadre", "11h42 · Quand les agents IA sortent du cadre", "11h42 · Quand les agents IA sortent du cadre", "11h42 · Quand les agents IA sortent du cadre", "14h15 · Track tech : après le 10x engineer", "14h26 · Track tech : après le 10x engineer", "15h09 · Track tech : web sémantique et langage naturel", "15h09 · Track tech : web sémantique et langage naturel", "15h10 · Track tech : web sémantique et langage naturel", "15h10 · Track tech : web sémantique et langage naturel", "15h10 · Track tech : web sémantique et langage naturel", "18h59 · Cocktail et repas dînatoire", "The Camp · Le patio et ses voiles tendues", "The Camp · Le jardin intérieur, entouré des salles", "The Camp · Lever de lune sur la garrigue", "The Camp · Coucher de soleil depuis le domaine"];
+  var tuiles = Array.prototype.slice.call(document.querySelectorAll('.photo'));
+  var visio = document.getElementById('visio');
+  var img = document.getElementById('visio-img');
+  var leg = document.getElementById('visio-legende');
+  var cpt = document.getElementById('visio-compteur');
+  var courant = 0, retour = null;
+
+  function afficher(i) {
+    courant = (i + tuiles.length) % tuiles.length;
+    img.src = tuiles[courant].querySelector('img').src;
+    leg.textContent = legendes[courant] || '';
+    cpt.textContent = (courant + 1) + ' / ' + tuiles.length;
+  }
+  function ouvrir(i) {
+    retour = document.activeElement;
+    afficher(i);
+    visio.setAttribute('data-ouvert', 'true');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('visio-fermer').focus();
+  }
+  function fermer() {
+    visio.setAttribute('data-ouvert', 'false');
+    document.body.style.overflow = '';
+    if (retour) retour.focus();
+  }
+  tuiles.forEach(function (t) { t.addEventListener('click', function () { ouvrir(+t.dataset.i); }); });
+  document.getElementById('visio-fermer').addEventListener('click', fermer);
+  document.getElementById('visio-prec').addEventListener('click', function () { afficher(courant - 1); });
+  document.getElementById('visio-suiv').addEventListener('click', function () { afficher(courant + 1); });
+  visio.addEventListener('click', function (ev) { if (ev.target === visio || ev.target.classList.contains('visio__scene')) fermer(); });
+  document.addEventListener('keydown', function (ev) {
+    if (visio.getAttribute('data-ouvert') !== 'true') return;
+    if (ev.key === 'Escape') fermer();
+    else if (ev.key === 'ArrowLeft') afficher(courant - 1);
+    else if (ev.key === 'ArrowRight') afficher(courant + 1);
+    else if (ev.key === 'Tab') {
+      var f = visio.querySelectorAll('button');
+      var premier = f[0], dernier = f[f.length - 1];
+      if (ev.shiftKey && document.activeElement === premier) { ev.preventDefault(); dernier.focus(); }
+      else if (!ev.shiftKey && document.activeElement === dernier) { ev.preventDefault(); premier.focus(); }
+    }
+  });
+  // Balayage sur mobile
+  var x0 = null;
+  visio.addEventListener('touchstart', function (ev) { x0 = ev.touches[0].clientX; }, { passive: true });
+  visio.addEventListener('touchend', function (ev) {
+    if (x0 === null) return;
+    var dx = ev.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) afficher(courant + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+})();
+</script>
+</body>
+</html>
